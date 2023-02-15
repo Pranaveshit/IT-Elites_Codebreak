@@ -2,6 +2,8 @@ const express=require('express');
 const router=express.Router();
 const numTable=require("../models/number");
 const console = require('console'); 
+const idTable = require("../models/chip");
+const { error } = require('console');
 router.get("/",(req,res)=>{
     res.send(`<!DOCTYPE html>
     <html lang="en">
@@ -100,6 +102,56 @@ router.post("/enterId",(req,res)=>{
             status:"FAILED",
             message:"Unable to to save"
         })
+
     })
+
+})
+router.post("/status",(req,res)=>{
+    let{chipId,spare}=req.body;
+    idTable.find({
+        chipId:chipId
+    })
+    .then((result)=>{
+        if(result.length<=0){
+            res.json({
+                status:"FAILED",
+                message:"INVALID CHIPID"
+            })
+        }
+        else{
+            if(spare=="PISTON"){
+                if(result[0].temperature>=900){
+                    if(result[0].gasleak==true){
+                        res.json({
+                            status:"SUCCESS",
+                            message:"YOUR PISTON HAS A TROUBLE"
+                        })
+                    }
+                    else{
+                    res.json({
+                        status:"FAILED",
+                        message:"YOUR PISTON IS WORKING GOOD"
+                    })
+                }
+                }
+                else{
+                    res.json({
+                        status:"FAILED",
+                        message:"YOUR PISTON IS WORKING GOOD"
+                    })
+                }
+            }
+        }
+    })
+    .catch((error)=>{
+        console.log(error);
+        res.json({
+            status:"FAILED",
+            message:"FAILED TO FETCH CHIP ID"
+
+        })
+    })
+
+    
 })
 module.exports=router;  

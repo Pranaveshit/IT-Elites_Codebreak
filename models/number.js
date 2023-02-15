@@ -6,4 +6,4 @@ const lorryNumbers=new Schema({
     condition: String,
 });
 const lorryNum=mongoose.model('lorryNumbers',lorryNumbers);
-module.exports=lorryNum;
+module.exports=lorryNum; 
