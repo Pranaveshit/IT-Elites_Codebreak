@@ -12,5 +12,5 @@ const chipNumbers=new Schema({
     tyre6pressure:Number, 
 
 });
-const lorryNum=mongoose.model('lorryNumbers',lorryNumbers);
+const lorryNum=mongoose.model('chipNumbers',chipNumbers);
 module.exports=lorryNum; 

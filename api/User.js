@@ -3,7 +3,7 @@ const router=express.Router();
 const numTable=require("../models/number");
 const console = require('console'); 
 const idTable = require("../models/chip");
-const { error } = require('console');
+const {error} = require('console');
 router.get("/",(req,res)=>{
     res.send(`<!DOCTYPE html>
     <html lang="en">
@@ -14,7 +14,7 @@ router.get("/",(req,res)=>{
         <title>Document</title>
         <script>
             function onClick(){
-                alert("cliecked");
+                alert("clicked");
             }
         </script>
     </head>
@@ -153,5 +153,38 @@ router.post("/status",(req,res)=>{
     })
 
     
+})
+router.post("/setChipId",(req,res)=>{
+    let {
+        chipId,smokeleak,temperature,tyre1pressure,tyre2pressure,tyre3pressure,tyre4pressure,tyre5pressure,tyre6pressure
+    }=req.body;
+    let temp =new idTable({
+        chipId:chipId,
+        smokeleak:smokeleak,
+        temperature:temperature,
+        tyre1pressure:tyre1pressure,
+        tyre2pressure:tyre2pressure,
+        tyre3pressure:tyre3pressure,
+        tyre4pressure:tyre4pressure,
+        tyre5pressure:tyre5pressure,
+        tyre6pressure:tyre6pressure,
+    })
+    temp.save() 
+    .then(
+        (result)=>{
+            res.json({
+                status:"SUCESS",
+                message:"Saved",
+            })
+        }
+    )
+    .catch((error)=>{
+        console.log(error);
+        res.json({
+            status:"FAILED", 
+            message:"UNABLE TO SAVE DATA",
+        })
+    })
+
 })
 module.exports=router;  
